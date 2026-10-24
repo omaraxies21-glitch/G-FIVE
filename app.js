@@ -374,7 +374,19 @@
   $('#searchInput').addEventListener('input', (event) => {
     state.search = event.target.value;
     state.visibleLimit = pageSize;
+    const isSearching = Boolean(state.search.trim());
+    const wasSearching = document.body.classList.contains('search-results-mode');
+    document.body.classList.toggle('search-results-mode', isSearching);
     renderProducts();
+    if (isSearching && !wasSearching) {
+      const catalogTop = $('#catalogo').getBoundingClientRect().top + window.scrollY;
+      const headerHeight = header.getBoundingClientRect().height;
+      const rootStyle = document.documentElement.style;
+      const previousScrollBehavior = rootStyle.scrollBehavior;
+      rootStyle.scrollBehavior = 'auto';
+      window.scrollTo(0, Math.max(0, catalogTop - headerHeight));
+      rootStyle.scrollBehavior = previousScrollBehavior;
+    }
   });
   $('#sortSelect').addEventListener('change', (event) => {
     state.sort = event.target.value;
@@ -389,6 +401,7 @@
     state.category = 'Todos';
     state.search = '';
     state.visibleLimit = pageSize;
+    document.body.classList.remove('search-results-mode');
     $('#searchInput').value = '';
     renderCategories();
     renderProducts();

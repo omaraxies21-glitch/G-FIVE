@@ -874,6 +874,10 @@ body {
 .catalog-toolbar { justify-content: flex-end; }
 html { scroll-padding-top: 92px; }
 #inicio, #catalogo, #categorias, #ayuda { scroll-margin-top: 92px; }
+body.search-results-mode .hero,
+body.search-results-mode #categorias,
+body.search-results-mode .catalog-heading { display: none; }
+body.search-results-mode .catalog-section { padding-top: 28px; }
 
 @media (max-width: 1050px) {
   .site-header { padding-right: 22px; padding-left: 22px; }
@@ -896,6 +900,7 @@ html { scroll-padding-top: 92px; }
     height: 116px;
     align-content: flex-start;
   }
+  body.search-results-mode #catalogo { scroll-margin-top: 132px; }
   .site-header.search-open .header-search {
     position: absolute;
     top: 64px;
