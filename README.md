@@ -4,7 +4,7 @@ Sitio estático, rápido y adaptable a móvil para que clientes vean productos, 
 
 ## Aviso para la demo
 
-El catálogo incluido es ficticio: nombres y precios son ejemplos de presentación. El banner/logo son las imágenes oficiales que compartiste para preparar esta demo. No publicar precios ficticios. Antes de enlazarlo desde el Instagram oficial, reemplazar los productos por una lista de precios aprobada por G-FIVE.
+El catálogo incluido contiene 50 productos completamente ficticios: nombres, marcas, especificaciones y precios son ejemplos de presentación, no representan inventario real ni cotizaciones de mercado. El banner/logo son las imágenes oficiales que compartiste para preparar esta demo. El WhatsApp configurado es el número de ventas facilitado para la demostración. Mantener visible el aviso de demo y no ofrecer estos precios como reales; antes de enlazarlo desde el Instagram oficial, reemplazar productos y precios por información aprobada por G-FIVE.
 
 ## Abrir en la PC
 
@@ -30,14 +30,14 @@ npm run build
 1. Abre el catálogo, filtra por **Laptops** y busca `monitor`.
 2. Agrega dos productos y pulsa **Mi cotización**.
 3. Cambia cantidades y escribe una nota de ejemplo.
-4. Muestra el botón de WhatsApp; se activará con el número autorizado de ventas en `config.js`.
+4. Muestra el botón de WhatsApp configurado para la demo.
 5. Explica que los artículos y precios visibles son ficticios y que no hay stock en vivo ni integración con Profit.
 
 ## Configurar para la tienda
 
 1. Edita `config.js`:
    - `storeName`: nombre que G-FIVE autorice para el sitio.
-   - `whatsappNumber`: WhatsApp de ventas en formato internacional, solo dígitos. Venezuela: `58` + número, sin `+`, espacios ni guiones. Ejemplo de formato ficticio: `584120000000`.
+   - `whatsappNumber`: WhatsApp de ventas en formato internacional, solo dígitos. Venezuela: `58` + número, sin `+`, espacios ni guiones. El valor actual es el número que se indicó para esta demo; confirmar autorización antes de enlazarlo públicamente.
    - `showDemoNotice`: mantener `true` para demo; cambiar a `false` únicamente al sustituir todos los productos por catálogo y precios autorizados.
 2. Los recursos recibidos están guardados en `assets/brand/`; reemplaza las imágenes de producto demo por fotos autorizadas. La publicación pública, el catálogo y sus precios requieren visto bueno del dueño.
 3. Exporta el inventario/precios aprobados desde Profit a CSV. No exportar costo interno, proveedor, margen, datos de clientes ni otros campos confidenciales.
@@ -59,28 +59,28 @@ Para 3.000 productos, usar miniaturas WebP de unos 60–120 KB, proporción cons
 - La lista se conserva en `localStorage` de ese navegador/dispositivo.
 - Al enviar, se abre `wa.me` con productos, cantidades, precios de referencia y nota opcional.
 - No hay stock en vivo ni reserva de productos. Ventas debe confirmar disponibilidad y precio final.
-- El botón WhatsApp no queda configurado hasta que se ponga el número autorizado en `config.js`.
+- El número de WhatsApp configurado debe ser un canal autorizado de ventas y permanecer activo.
 
 ## Publicar para abrir desde cualquier lugar
 
-Para el demo de mañana, GitHub Pages o Cloudflare Pages pueden servir esta web estática sin base de datos. El usuario debe abrir el URL HTTPS en el celular. En Chrome Android: menú → **Añadir a pantalla principal**; en Safari iOS: **Compartir → Añadir a pantalla de inicio**.
+Para el demo de mañana, GitHub Pages puede servir esta web estática sin base de datos. El usuario debe abrir el URL HTTPS en el celular. En Chrome Android: menú → **Añadir a pantalla principal**; en Safari iOS: **Compartir → Añadir a pantalla de inicio**.
 
-El repositorio de código puede ser privado, pero GitHub Pages para un repo privado depende del plan de la cuenta/organización; no asumir que está incluido. Si no permite publicar desde privado, usar Cloudflare Pages conectando el repo privado, o crear un repo público solo después de confirmar que el catálogo y los archivos no son confidenciales y que G Five autorizó la publicación.
+Este proyecto se publicará desde un repositorio público de GitHub, por lo que tanto el código como los productos de muestra serán visibles para cualquiera. No contiene el catálogo interno de Profit: antes de reemplazarlo por precios reales, fotos o datos de la tienda, obtener autorización de G-FIVE y revisar qué información quedará expuesta.
 
 URL esperado si se despliega un repositorio de proyecto bajo la organización, sujeto a que el nombre/repositorio esté disponible:
 
-`https://gfivevzla.github.io/gfiveweb/`
+`https://omaraxies21-glitch.github.io/G-FIVE/`
 
 Para publicarlo en `https://gfivevzla.github.io/` raíz, el repo debe llamarse `gfivevzla.github.io`, o configurarse un dominio propio. No se puede asumir que el primer URL existe.
 
 ### GitHub Pages con GitHub Actions
 
-1. El repositorio privado `omaraxies21-glitch/G-FIVE` ya fue creado. Publicar desde la rama `main` de este proyecto local.
-2. En **Settings → Pages**, seleccionar **GitHub Actions** como fuente. El workflow `.github/workflows/pages.yml` publicará el sitio al hacer push a `main`.
-3. Esperar el workflow y abrir el enlace HTTPS que indica Pages.
-4. Probar en celular: búsqueda, filtro, lista, actualización de cantidades y enlace WhatsApp.
+1. El repositorio `omaraxies21-glitch/G-FIVE` se publica como público a petición del propietario.
+2. En **Settings → Pages**, seleccionar **GitHub Actions** como fuente. El workflow `.github/workflows/pages.yml` publica el sitio al hacer push a `main`.
+3. Esperar que termine correctamente el workflow y abrir `https://omaraxies21-glitch.github.io/G-FIVE/`.
+4. Probar en celular: búsqueda, filtros, lista, cantidades y enlace de WhatsApp.
 
-Alternativa: importar el repo privado en Cloudflare Pages, usar `npm run build` y el directorio de salida `dist`. No se necesita configurar secretos ni backend.
+Si el despliegue automático falla, revisar la ejecución del workflow en la pestaña **Actions** y la fuente de publicación en **Settings → Pages**.
 
 ## Actualización quincenal
 
