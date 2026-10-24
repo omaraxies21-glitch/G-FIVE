@@ -15,21 +15,25 @@
   </head>
   <body>
     <div class="demo-ribbon" id="demoNotice" role="status"></div>
-    <header class="site-header">
+    <header class="site-header" id="topbar">
       <a class="brand" href="#" aria-label="G-FIVE, inicio">
         <img class="brand-mark" src="assets/brand/gfive-icon.png" alt="">
         <span class="brand-name"><strong>G-FIVE</strong><small>VNZLA · TECNOLOGÍA</small></span>
       </a>
       <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
         <a href="#catalogo">Catálogo</a>
         <a href="#categorias">Categorías</a>
         <a href="#ayuda">¿Necesitas ayuda?</a>
       </nav>
+      <label class="search-box header-search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Buscar productos..." autocomplete="off" aria-label="Buscar en catálogo"><kbd>⌘ K</kbd></label>
+      <button class="header-search-toggle" id="toggleSearch" type="button" aria-label="Abrir búsqueda" aria-expanded="false" aria-controls="searchInput"><span aria-hidden="true">⌕</span></button>
+      <button class="theme-toggle" id="toggleTheme" type="button" aria-label="Cambiar a tema claro" title="Cambiar a tema claro"><span class="theme-icon" aria-hidden="true">☼</span><span class="theme-label">Claro</span></button>
       <button class="quote-top" id="openQuote" type="button">Mi cotización <span id="quoteCount">0</span></button>
     </header>
 
     <main>
-      <section class="hero">
+      <section class="hero" id="inicio">
         <div class="hero-copy">
           <p class="eyebrow"><span class="live-dot"></span> G-FIVE VNZLA · TECNOLOGÍA QUE TE MUEVE</p>
           <h1>Tu próximo nivel<br><span>empieza aquí.</span></h1>
@@ -55,7 +59,6 @@
           <p>Laptops, periféricos, cámaras, DVR y cables. Arma tu selección y solicita una cotización clara por WhatsApp.</p>
         </div>
         <div class="catalog-toolbar">
-          <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Busca equipos, marcas o modelos..." autocomplete="off" aria-label="Buscar en catálogo"><kbd>⌘ K</kbd></label>
           <label class="sort-control"><span>Ordenar:</span><select id="sortSelect" aria-label="Ordenar productos"><option value="featured">Destacados</option><option value="price-asc">Precio: menor a mayor</option><option value="price-desc">Precio: mayor a menor</option><option value="name">Nombre: A–Z</option></select></label>
         </div>
         <div class="active-filters"><span id="resultCount"></span><button id="clearFilters" type="button" hidden>Limpiar filtros <span>×</span></button></div>

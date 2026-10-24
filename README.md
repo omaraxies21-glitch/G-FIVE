@@ -56,6 +56,8 @@ Para 3.000 productos, usar miniaturas WebP de unos 60–120 KB, proporción cons
 ## Lista y WhatsApp
 
 - El usuario puede agregar varios productos, editar cantidades o quitarlos.
+- La barra superior permanece disponible al desplazarse; desde ahí se puede volver a **Inicio** y buscar productos. En móvil, abre la búsqueda con el botón de lupa.
+- El tema **Noche** (azul y dorado) es el predeterminado; el botón de sol/luna alterna a **Claro** y guarda la preferencia en ese navegador.
 - La lista se conserva en `localStorage` de ese navegador/dispositivo.
 - La lista muestra el código de catálogo/barra, nombre, cantidad, precio unitario, subtotal por producto y total estimado.
 - Al enviar, se abre `wa.me` con ese desglose, el total y la nota opcional.

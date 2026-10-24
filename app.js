@@ -312,6 +312,38 @@
 
   document.title = `${config.storeName || 'G-FIVE VNZLA'} | Catálogo`;
   $('#year').textContent = new Date().getFullYear();
+  const themeButton = $('#toggleTheme');
+  const themeLabel = themeButton.querySelector('.theme-label');
+  const themeIcon = themeButton.querySelector('.theme-icon');
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  const savedTheme = localStorage.getItem('gfive-theme');
+
+  function applyTheme(theme) {
+    const isLight = theme === 'light';
+    document.documentElement.dataset.theme = isLight ? 'light' : 'night';
+    themeLabel.textContent = isLight ? 'Noche' : 'Claro';
+    themeIcon.textContent = isLight ? '☾' : '☼';
+    themeButton.setAttribute('aria-label', `Cambiar a tema ${isLight ? 'noche' : 'claro'}`);
+    themeButton.title = `Cambiar a tema ${isLight ? 'noche' : 'claro'}`;
+    themeColor.content = isLight ? '#f4f7fc' : '#08152b';
+  }
+
+  applyTheme(savedTheme === 'light' ? 'light' : 'night');
+  themeButton.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'light' ? 'night' : 'light';
+    localStorage.setItem('gfive-theme', nextTheme);
+    applyTheme(nextTheme);
+  });
+
+  const header = $('#topbar');
+  const searchToggle = $('#toggleSearch');
+  searchToggle.addEventListener('click', () => {
+    const isOpen = header.classList.toggle('search-open');
+    searchToggle.setAttribute('aria-expanded', String(isOpen));
+    searchToggle.setAttribute('aria-label', isOpen ? 'Cerrar búsqueda' : 'Abrir búsqueda');
+    if (isOpen) $('#searchInput').focus();
+  });
+
   if (!config.showDemoNotice) $('#demoNotice').hidden = true;
   else $('#demoNotice').textContent = config.demoNotice || 'CATÁLOGO DEMO · PRECIOS ILUSTRATIVOS';
 
@@ -370,10 +402,18 @@
   $('#helpWhatsapp').addEventListener('click', () => sendToWhatsApp(true));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && quoteDrawer.classList.contains('open')) closeQuote();
+    if (event.key === 'Escape' && header.classList.contains('search-open')) {
+      header.classList.remove('search-open');
+      searchToggle.setAttribute('aria-expanded', 'false');
+      searchToggle.setAttribute('aria-label', 'Abrir búsqueda');
+      searchToggle.focus();
+    }
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
+      header.classList.add('search-open');
+      searchToggle.setAttribute('aria-expanded', 'true');
+      searchToggle.setAttribute('aria-label', 'Cerrar búsqueda');
       $('#searchInput').focus();
-      $('#catalogo').scrollIntoView({ behavior: 'smooth' });
     }
   });
 
