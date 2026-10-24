@@ -1195,3 +1195,18 @@ html[data-theme="light"] .toast {
   }
   html[data-theme="light"] .hero-bottom { color: #536984; }
 }
+
+.hero { animation: none; background-size: 100% 100%; }
+.hero::after { animation: none; background-size: 100% 100%; opacity: .45; }
+.product-card { animation: none; }
+@media (max-width: 700px) {
+  .product-card {
+    box-shadow: 0 7px 18px rgb(0 0 0 / 18%);
+    transition: border-color .18s;
+  }
+  .product-card:hover {
+    transform: none;
+    box-shadow: 0 7px 18px rgb(0 0 0 / 18%);
+  }
+  .product-card:hover .product-visual > img { transform: none; }
+}

@@ -1,6 +1,13 @@
 (() => {
   const config = window.GFIVE_CONFIG || {};
   const products = Array.isArray(window.GFIVE_PRODUCTS) ? window.GFIVE_PRODUCTS : [];
+  const productSearchText = new Map(products.map((product) => [
+    product.id,
+    [product.name, product.brand, product.category, product.description]
+      .map((value) => String(value ?? ''))
+      .join(' ')
+      .toLocaleLowerCase('es')
+  ]));
   const pageSize = 24;
   const state = { category: 'Todos', search: '', sort: 'featured', visibleLimit: pageSize, quote: loadQuote() };
   const $ = (selector) => document.querySelector(selector);
@@ -8,6 +15,7 @@
   const quoteDrawer = $('#quoteDrawer');
   const backdrop = $('#quoteBackdrop');
   let toastTimer;
+  let searchTimer;
 
   function loadQuote() {
     try {
@@ -41,7 +49,7 @@
     const query = state.search.trim().toLocaleLowerCase('es');
     const visible = products.filter((product) => {
       const matchesCategory = state.category === 'Todos' || product.category === state.category;
-      const haystack = `${product.name} ${product.brand} ${product.category} ${product.description}`.toLocaleLowerCase('es');
+      const haystack = productSearchText.get(product.id);
       return matchesCategory && (!query || haystack.includes(query));
     });
     if (state.sort === 'price-asc') visible.sort((a, b) => Number(a.price) - Number(b.price));
@@ -372,21 +380,28 @@
     }
   });
   $('#searchInput').addEventListener('input', (event) => {
+    clearTimeout(searchTimer);
     state.search = event.target.value;
     state.visibleLimit = pageSize;
     const isSearching = Boolean(state.search.trim());
     const wasSearching = document.body.classList.contains('search-results-mode');
     document.body.classList.toggle('search-results-mode', isSearching);
-    renderProducts();
-    if (isSearching && !wasSearching) {
-      const catalogTop = $('#catalogo').getBoundingClientRect().top + window.scrollY;
-      const headerHeight = header.getBoundingClientRect().height;
-      const rootStyle = document.documentElement.style;
-      const previousScrollBehavior = rootStyle.scrollBehavior;
-      rootStyle.scrollBehavior = 'auto';
-      window.scrollTo(0, Math.max(0, catalogTop - headerHeight));
-      rootStyle.scrollBehavior = previousScrollBehavior;
+    if (!isSearching) {
+      renderProducts();
+      return;
     }
+    if (wasSearching) {
+      searchTimer = setTimeout(renderProducts, 120);
+      return;
+    }
+    renderProducts();
+    const catalogTop = $('#catalogo').getBoundingClientRect().top + window.scrollY;
+    const headerHeight = header.getBoundingClientRect().height;
+    const rootStyle = document.documentElement.style;
+    const previousScrollBehavior = rootStyle.scrollBehavior;
+    rootStyle.scrollBehavior = 'auto';
+    window.scrollTo(0, Math.max(0, catalogTop - headerHeight));
+    rootStyle.scrollBehavior = previousScrollBehavior;
   });
   $('#sortSelect').addEventListener('change', (event) => {
     state.sort = event.target.value;
@@ -398,6 +413,7 @@
     renderProducts();
   });
   $('#clearFilters').addEventListener('click', () => {
+    clearTimeout(searchTimer);
     state.category = 'Todos';
     state.search = '';
     state.visibleLimit = pageSize;
