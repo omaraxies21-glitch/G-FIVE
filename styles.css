@@ -539,3 +539,292 @@ h1, h2, h3, p { margin-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+:root {
+  color-scheme: dark;
+  --ink: #f4f6fb;
+  --muted: #a8b5c8;
+  --paper: #08152b;
+  --line: rgb(197 215 239 / 14%);
+  --navy: #0a1a35;
+  --gold: #f0c875;
+  --shadow: 0 22px 60px rgb(0 0 0 / 28%);
+}
+body {
+  min-height: 100vh;
+  color: #f4f6fb;
+  background:
+    radial-gradient(ellipse at 12% 9%, rgb(21 82 139 / 35%), transparent 32rem),
+    radial-gradient(ellipse at 93% 44%, rgb(155 111 39 / 12%), transparent 31rem),
+    linear-gradient(155deg, #071226, #0b1b37 47%, #08152b);
+}
+.demo-ribbon {
+  color: #ffdf9b;
+  background: linear-gradient(100deg, #071226, #143d67 48%, #6c512b 100%);
+}
+.site-header {
+  border-bottom: 1px solid rgb(240 200 117 / 30%);
+  background: rgb(7 19 39 / 87%);
+  box-shadow: 0 12px 34px rgb(0 0 0 / 22%);
+}
+.brand-name strong { color: #fff; }
+.brand-name small { color: #f0c875; }
+.brand-mark { filter: drop-shadow(0 3px 12px rgb(231 183 88 / 24%)); }
+.main-nav { color: #d0d9e7; }
+.main-nav a:hover { color: #f3d28b; }
+.quote-top {
+  border-color: rgb(240 200 117 / 42%);
+  background: linear-gradient(130deg, rgb(19 43 75 / 95%), rgb(41 45 57 / 95%));
+  color: #fff;
+}
+.quote-top span {
+  background: linear-gradient(145deg, #ffe7ae, #c68c31);
+  color: #12213a;
+}
+.hero {
+  background:
+    radial-gradient(ellipse at 12% 8%, rgb(24 100 159 / 50%), transparent 40%),
+    radial-gradient(ellipse at 52% 100%, rgb(18 63 106 / 62%), transparent 53%),
+    linear-gradient(122deg, #07152c 0%, #0d2850 48%, #12456d 100%);
+  background-size: 145% 145%;
+  animation: aurora-drift 22s ease-in-out infinite alternate;
+}
+.hero::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(112deg, transparent 30%, rgb(255 218 143 / 7%) 49%, transparent 68%);
+  background-size: 220% 100%;
+  animation: gold-sweep 12s ease-in-out infinite;
+  content: "";
+  pointer-events: none;
+}
+.hero-copy, .hero-art, .hero-bottom { z-index: 1; }
+.hero h1 span {
+  background: linear-gradient(100deg, #fff0c4, #f2cc75 43%, #dc9e3c 72%, #ffebbb);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+}
+.hero-description { color: #c6d3e4; }
+.hero-art {
+  background:
+    radial-gradient(ellipse at 52% 42%, rgb(220 172 83 / 20%), transparent 52%),
+    radial-gradient(ellipse at 65% 25%, rgb(40 132 196 / 48%), transparent 60%),
+    linear-gradient(145deg, #0c2850, #10203b 85%);
+}
+.hero-art::before {
+  position: absolute;
+  width: min(78%, 520px);
+  aspect-ratio: 1;
+  border: 1px solid rgb(246 208 137 / 52%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 20px rgb(246 208 137 / 7%), 0 0 75px rgb(54 152 222 / 34%);
+  content: "";
+}
+.hero-official-banner {
+  z-index: 1;
+  width: min(100%, 760px);
+  border: 1px solid rgb(255 221 153 / 86%);
+  border-radius: 22px;
+  box-shadow: 0 28px 80px rgb(0 7 20 / 48%), 0 0 42px rgb(239 184 83 / 16%);
+}
+.hero-image-caption { z-index: 1; color: #f0cf8f; }
+.hero-bottom { color: #c4d0e0; }
+.hero-bottom b { color: #f4cd7d; }
+.button { box-shadow: 0 12px 30px rgb(3 13 29 / 28%); }
+.button-light {
+  border: 1px solid rgb(255 225 163 / 65%);
+  background: linear-gradient(110deg, #fff0c7, #e8b95d 58%, #d29a3a);
+  color: #14294a;
+}
+.button-dark { background: linear-gradient(115deg, #0b2142, #175083); color: #fff; }
+.category-strip {
+  border-bottom: 1px solid rgb(240 200 117 / 20%);
+  background: linear-gradient(115deg, rgb(10 28 54 / 98%), rgb(15 40 71 / 96%) 62%, rgb(56 47 37 / 83%));
+  box-shadow: 0 16px 40px rgb(0 0 0 / 15%);
+}
+.category-strip h2, .catalog-heading h2 { color: #f6f7fa; }
+.category-strip .section-kicker, .catalog-heading .section-kicker { color: #f0c875; }
+.category-pill {
+  border-color: rgb(196 214 239 / 20%);
+  background: rgb(255 255 255 / 4%);
+  color: #d1dbe9;
+}
+.category-pill:hover { border-color: rgb(240 200 117 / 62%); color: #ffe1a0; }
+.category-pill.active {
+  border-color: #e1b75f;
+  background: linear-gradient(125deg, #153f6a, #26374c 70%, #614b2c);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 24%), 0 0 18px rgb(225 183 95 / 16%);
+  color: #ffe3a6;
+}
+.catalog-section {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 93% 8%, rgb(104 75 37 / 17%), transparent 35rem),
+    radial-gradient(ellipse at 0 35%, rgb(25 90 148 / 21%), transparent 40rem),
+    linear-gradient(180deg, #091a33 0%, #0b1a31 52%, #081429 100%);
+}
+.catalog-section::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: linear-gradient(rgb(178 204 235 / 3%) 1px, transparent 1px), linear-gradient(90deg, rgb(178 204 235 / 3%) 1px, transparent 1px);
+  background-size: 62px 62px;
+  mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+  content: "";
+  pointer-events: none;
+}
+.catalog-heading > p { color: #b9c6d6; }
+.search-box, .sort-control select {
+  border-color: rgb(187 207 234 / 22%);
+  background: linear-gradient(125deg, rgb(15 34 61 / 96%), rgb(18 36 60 / 96%));
+  box-shadow: 0 8px 25px rgb(0 0 0 / 18%);
+  color: #dbe4f0;
+}
+.search-box input { color: #f4f6fb; }
+.search-box input::placeholder, .search-box kbd { color: #94a4ba; }
+.search-box kbd { border-color: rgb(197 215 239 / 18%); }
+.search-box:focus-within {
+  border-color: rgb(240 200 117 / 75%);
+  box-shadow: 0 0 0 3px rgb(240 200 117 / 13%);
+}
+.sort-control { color: #b9c6d6; }
+.sort-control select option { background: #10223d; color: #fff; }
+.active-filters { color: #aebbd0; }
+.active-filters button, .text-button { color: #f0c875; }
+.product-card {
+  border-color: rgb(174 200 231 / 16%);
+  background: linear-gradient(155deg, rgb(19 40 69 / 97%), rgb(10 25 47 / 98%) 68%, rgb(37 35 33 / 96%));
+  box-shadow: 0 12px 34px rgb(0 0 0 / 22%);
+}
+.product-card:hover {
+  border-color: rgb(241 201 120 / 57%);
+  box-shadow: 0 24px 56px rgb(0 0 0 / 38%), 0 0 32px rgb(45 126 184 / 15%);
+}
+.product-visual {
+  background:
+    radial-gradient(ellipse at 50% 32%, rgb(45 94 136 / 44%), transparent 67%),
+    linear-gradient(145deg, #132c4b, #0d1d35 75%, #282721);
+}
+.product-visual > img { mix-blend-mode: normal; }
+.product-tag {
+  border-color: rgb(244 204 125 / 42%);
+  background: rgb(9 24 44 / 88%);
+  color: #f7d994;
+}
+.in-quote {
+  border: 1px solid rgb(122 208 165 / 38%);
+  background: rgb(12 52 48 / 93%);
+  color: #a9f1c8;
+}
+.product-meta { color: #e2be73; }
+.product-meta span:last-child { color: #aebdd0; }
+.product-info h3 { color: #f3f6fb; }
+.product-info > p { color: #aab9cd; }
+.product-buy { border-top-color: rgb(191 212 238 / 13%); }
+.product-buy > strong { color: #f4d38c; }
+.add-button {
+  border-color: rgb(227 189 104 / 43%);
+  background: linear-gradient(115deg, rgb(22 53 84 / 95%), rgb(54 48 40 / 95%));
+  color: #ffe1a0;
+}
+.add-button:hover {
+  border-color: #efce83;
+  background: linear-gradient(115deg, #1b5686, #765c2e);
+  color: #fff4d6;
+}
+.empty-state { color: #d6deeb; }
+.empty-state h3 { color: #fff; }
+.empty-state p { color: #afbdd0; }
+.help-banner {
+  border: 1px solid rgb(240 200 117 / 29%);
+  background:
+    radial-gradient(circle at 80% 0%, rgb(35 107 157 / 46%), transparent 48%),
+    linear-gradient(120deg, #08172f, #103962 72%, #463820);
+  box-shadow: 0 22px 55px rgb(0 0 0 / 28%);
+}
+.help-banner .section-kicker, .help-icon { color: #f3cb7a; }
+.help-banner h2 { color: #fff; }
+.help-banner p { color: #becbdd; }
+.help-icon { border-color: rgb(242 204 126 / 58%); }
+.site-footer {
+  border-top: 1px solid rgb(240 200 117 / 20%);
+  background: linear-gradient(110deg, #071327, #0d2442 65%, #2d281f);
+}
+.site-footer > p { color: #c0ccdc; }
+.site-footer > p span, .footer-location { color: #e0bd74; }
+.quote-backdrop { background: rgb(2 8 18 / 77%); backdrop-filter: blur(5px); }
+.quote-drawer {
+  border-left: 1px solid rgb(240 200 117 / 24%);
+  background:
+    radial-gradient(ellipse at 100% 0, rgb(26 69 111 / 33%), transparent 25rem),
+    linear-gradient(155deg, #0d1f3a, #08162b 72%, #1c1a16);
+  color: #f1f5fa;
+  box-shadow: -22px 0 75px rgb(0 0 0 / 42%);
+}
+.drawer-head { border-bottom-color: rgb(197 215 239 / 16%); }
+.drawer-head h2 { color: #fff; }
+.drawer-head h2 span, .drawer-head .section-kicker { color: #edc874; }
+.close-drawer {
+  border-color: rgb(230 213 175 / 32%);
+  background: rgb(255 255 255 / 6%);
+  color: #fff;
+}
+.drawer-intro, .drawer-empty { color: #b3c1d3; }
+.quote-item { border-bottom-color: rgb(197 215 239 / 14%); }
+.quote-thumb { border: 1px solid rgb(200 217 239 / 12%); background: #e9eef5; }
+.quote-item-heading > strong { color: #f4f6fb; }
+.quote-item-info > .quote-barcode { color: #b0bfd2; }
+.quote-item-pricing { color: #b7c3d3; }
+.quote-item-pricing strong { color: #f3d48e; }
+.quantity-control button {
+  border-color: rgb(230 213 175 / 28%);
+  background: rgb(255 255 255 / 6%);
+  color: #ffe1a0;
+}
+.quantity-control span { color: #fff; }
+.remove-item { color: #cfb97f; }
+.drawer-empty > span { background: rgb(255 255 255 / 8%); color: #f2cf80; }
+.drawer-empty strong { color: #fff; }
+.quote-summary { border-top-color: rgb(240 200 117 / 36%); }
+.quote-summary > span { color: #d6deea; }
+.quote-summary > strong { color: #ffe0a0; }
+.quote-summary > small, .quote-form > small { color: #aab8ca; }
+.quote-form { border-top-color: rgb(197 215 239 / 16%); }
+.quote-form label { color: #d0d9e6; }
+.quote-form input, .quote-form textarea {
+  border-color: rgb(197 215 239 / 20%);
+  background: rgb(255 255 255 / 5%);
+  color: #fff;
+}
+.quote-form input::placeholder, .quote-form textarea::placeholder { color: #94a5ba; }
+.quote-form input:focus, .quote-form textarea:focus { border-color: #e6bc65; }
+.toast {
+  border: 1px solid rgb(240 200 117 / 28%);
+  border-radius: 12px;
+  background: linear-gradient(120deg, #102d50, #453622);
+  color: #fff2d0;
+  box-shadow: 0 14px 35px rgb(0 0 0 / 30%);
+}
+@keyframes aurora-drift {
+  from { background-position: 0% 30%; }
+  to { background-position: 100% 80%; }
+}
+@keyframes gold-sweep {
+  0%, 30% { background-position: 120% 50%; opacity: .25; }
+  70%, 100% { background-position: -120% 50%; opacity: .7; }
+}
+@media (max-width: 700px) {
+  .hero-art {
+    background:
+      radial-gradient(ellipse at 50% 40%, rgb(43 123 181 / 40%), transparent 62%),
+      linear-gradient(150deg, #0b2342, #111e32);
+  }
+  .hero-official-banner { border-radius: 15px; }
+  .quote-drawer { padding: 20px 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero, .hero::after { animation: none; }
+}

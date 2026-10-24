@@ -28,6 +28,10 @@
     })[character]);
   }
 
+  function setTextIfChanged(element, value) {
+    if (element.textContent !== String(value)) element.textContent = value;
+  }
+
   function formatPrice(price) {
     const amount = new Intl.NumberFormat('es-VE', { maximumFractionDigits: 2 }).format(Number(price) || 0);
     return `${config.currency === 'USD' ? '$' : ''}${amount}${config.currency === 'USD' ? ' USD' : ` ${config.currency || ''}`}`;
@@ -79,11 +83,20 @@
       tablet: 'assets/products/tablet.jpg',
       network: 'assets/products/network.jpg',
       storage: 'assets/products/storage.jpg',
-      camera: 'assets/products/camera.jpg'
+      camera: 'assets/products/camera.jpg',
+      securityCamera: 'assets/products/security-camera.jpg',
+      dvr: 'assets/products/security-dvr.svg',
+      cable: 'assets/products/cable.svg'
     };
     const name = String(product.name || '').toLocaleLowerCase('es');
     if (name.includes('mouse')) return photos.mouse;
     if (name.includes('teclado')) return photos.keyboard;
+    if (name.includes('dvr') || name.includes('nvr') || name.includes('grabador')) return photos.dvr;
+    if (name.includes('cable') || name.includes('utp') || name.includes('cat5') || name.includes('cat6')) return photos.cable;
+    if (name.includes('cámara') || name.includes('camara') || name.includes('cctv')) return photos.securityCamera;
+    if (product.category === 'Cámaras') return photos.securityCamera;
+    if (product.category === 'DVRs') return photos.dvr;
+    if (product.category === 'Cables') return photos.cable;
     if (name.includes('audífono') || name.includes('auricular')) return photos.headphones;
     if (product.category === 'Laptops' || product.category === 'Computadoras') return photos.laptop;
     if (product.category === 'Tablets') return photos.tablet;
@@ -92,6 +105,9 @@
     if (product.category === 'Procesadores') return photos.processor;
     if (product.category === 'Almacenamiento') return photos.storage;
     if (product.category === 'Redes') return photos.network;
+    if (product.category === 'Cámaras') return photos.securityCamera;
+    if (product.category === 'DVRs') return photos.dvr;
+    if (product.category === 'Cables') return photos.cable;
     if (product.category === 'Accesorios') return photos.keyboard;
     return photos.camera;
   }
@@ -115,8 +131,8 @@
     $('#clearFilters').hidden = state.category === 'Todos' && !state.search;
     productGrid.innerHTML = visible.map((product, index) => {
       const inQuote = state.quote.find((line) => line.id === product.id)?.quantity || 0;
-      return `<article class="product-card" style="--card-index:${Math.min(index, 10)}">
-        <div class="product-visual">${imageMarkup(product)}<span class="product-tag">${escapeHtml(product.tag || product.category)}</span>${inQuote ? `<span class="in-quote">${inQuote} en tu lista</span>` : ''}</div>
+      return `<article class="product-card" data-product-card="${escapeHtml(product.id)}" style="--card-index:${Math.min(index, 10)}">
+        <div class="product-visual">${imageMarkup(product)}<span class="product-tag">${escapeHtml(product.tag || product.category)}</span><span class="in-quote"${inQuote ? '' : ' hidden'}>${inQuote} en tu lista</span></div>
         <div class="product-info"><div class="product-meta"><span>${escapeHtml(product.brand || 'G-FIVE')}</span><span>${escapeHtml(product.category || '')}</span></div>
           <h3>${escapeHtml(product.name)}</h3><p>${escapeHtml(product.description || '')}</p>
           <div class="product-buy"><strong>${formatPrice(product.price)}</strong><button class="add-button" type="button" data-add="${escapeHtml(product.id)}" aria-label="Agregar ${escapeHtml(product.name)} a la cotización">${inQuote ? '＋ Añadir otro' : '＋ Agregar'}</button></div>
@@ -125,8 +141,38 @@
     }).join('');
   }
 
+  function updateProductQuoteState(id) {
+    const card = [...productGrid.querySelectorAll('[data-product-card]')]
+      .find((item) => item.dataset.productCard === id);
+    if (!card) return;
+    const quantity = state.quote.find((line) => line.id === id)?.quantity || 0;
+    const product = products.find((item) => item.id === id);
+    if (!product) return;
+    const badge = card.querySelector('.in-quote');
+    const button = card.querySelector('[data-add]');
+    badge.hidden = quantity === 0;
+    badge.firstChild.nodeValue = quantity ? `${quantity} en tu lista` : '';
+    button.firstChild.nodeValue = quantity ? '＋ Añadir otro' : '＋ Agregar';
+    button.setAttribute('aria-label', `${quantity ? 'Agregar otro' : 'Agregar'} ${product.name} a la cotización`);
+  }
+
   function quoteQuantity() {
     return state.quote.reduce((sum, line) => sum + Number(line.quantity || 0), 0);
+  }
+
+  function createQuoteItem(product) {
+    const barcode = product.barcode || product.code || product.id;
+    const template = document.createElement('template');
+    template.innerHTML = `<article class="quote-item" data-quote-item="${escapeHtml(product.id)}">
+      <div class="quote-thumb">${imageMarkup(product)}</div>
+      <div class="quote-item-info">
+        <div class="quote-item-heading"><strong data-quote-name></strong><button class="remove-item" type="button" data-remove="${escapeHtml(product.id)}" aria-label="Quitar ${escapeHtml(product.name)}">×</button></div>
+        <small class="quote-barcode" data-quote-barcode></small>
+        <div class="quote-item-pricing"><span data-quote-pricing></span><strong data-quote-subtotal></strong></div>
+        <div class="quantity-control"><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="-1" aria-label="Quitar uno">−</button><span data-quote-quantity></span><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="1" aria-label="Agregar uno">+</button></div>
+      </div>
+    </article>`;
+    return template.content.firstElementChild;
   }
 
   function updateQuoteCount() {
@@ -136,24 +182,29 @@
     $('#drawerEmpty').hidden = state.quote.length > 0;
     $('#quoteForm').hidden = state.quote.length === 0;
     $('#quoteSummary').hidden = state.quote.length === 0;
+    const quoteItems = $('#quoteItems');
+    const existingItems = new Map(
+      [...quoteItems.querySelectorAll('[data-quote-item]')]
+        .map((item) => [item.dataset.quoteItem, item])
+    );
     let total = 0;
-    $('#quoteItems').innerHTML = state.quote.map((line) => {
+    state.quote.forEach((line) => {
       const product = products.find((item) => item.id === line.id);
-      if (!product) return '';
+      if (!product) return;
       const unitPrice = Number(product.price) || 0;
       const lineTotal = unitPrice * Number(line.quantity);
       total += lineTotal;
       const barcode = product.barcode || product.code || product.id;
-      return `<article class="quote-item">
-        <div class="quote-thumb">${imageMarkup(product)}</div>
-        <div class="quote-item-info">
-          <div class="quote-item-heading"><strong>${escapeHtml(product.name)}</strong><button class="remove-item" type="button" data-remove="${escapeHtml(product.id)}" aria-label="Quitar ${escapeHtml(product.name)}">×</button></div>
-          <small class="quote-barcode">Código de barras: ${escapeHtml(barcode)}</small>
-          <div class="quote-item-pricing"><span>${line.quantity} × ${formatPrice(unitPrice)}</span><strong>${formatPrice(lineTotal)}</strong></div>
-          <div class="quantity-control"><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="-1" aria-label="Quitar uno">−</button><span>${line.quantity}</span><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="1" aria-label="Agregar uno">+</button></div>
-        </div>
-      </article>`;
-    }).join('');
+      const item = existingItems.get(line.id) || createQuoteItem(product);
+      existingItems.delete(line.id);
+      setTextIfChanged(item.querySelector('[data-quote-name]'), product.name);
+      setTextIfChanged(item.querySelector('[data-quote-barcode]'), `Código de barras: ${barcode}`);
+      setTextIfChanged(item.querySelector('[data-quote-pricing]'), `${line.quantity} × ${formatPrice(unitPrice)}`);
+      setTextIfChanged(item.querySelector('[data-quote-subtotal]'), formatPrice(lineTotal));
+      setTextIfChanged(item.querySelector('[data-quote-quantity]'), line.quantity);
+      if (!item.isConnected) quoteItems.append(item);
+    });
+    existingItems.forEach((item) => item.remove());
     $('#quoteTotal').textContent = formatPrice(total);
   }
 
@@ -194,8 +245,8 @@
     if (existing) existing.quantity += 1;
     else state.quote.push({ id, quantity: 1 });
     saveQuote();
-    renderProducts();
     updateQuoteCount();
+    updateProductQuoteState(id);
     showToast('Agregado a tu cotización');
   }
 
@@ -210,7 +261,7 @@
     if (line.quantity <= 0) state.quote = state.quote.filter((item) => item.id !== id);
     saveQuote();
     updateQuoteCount();
-    renderProducts();
+    updateProductQuoteState(id);
   }
 
   function sendToWhatsApp(isHelp = false) {
@@ -221,24 +272,41 @@
     }
     const greeting = isHelp
       ? `Hola, vi el catálogo web de ${config.storeName || 'G-FIVE'} y quisiera asesoría sobre un equipo.`
-      : [
-          `Hola, vi el catálogo web de ${config.storeName || 'G-FIVE'} y quisiera cotizar:`,
-          ...state.quote.map((line) => {
+      : (() => {
+          const items = state.quote.map((line, index) => {
             const product = products.find((item) => item.id === line.id);
             if (!product) return '';
             const barcode = product.barcode || product.code || product.id;
             const lineTotal = (Number(product.price) || 0) * Number(line.quantity);
-            return `• Código: ${barcode}\n  ${product.name}\n  ${line.quantity} x ${formatPrice(product.price)} = ${formatPrice(lineTotal)}`;
-          }).filter(Boolean),
-          `TOTAL ESTIMADO: ${formatPrice(state.quote.reduce((sum, line) => {
+            return [
+              `*${String(index + 1).padStart(2, '0')} · ${product.name}*`,
+              `   *Código:* ${barcode}`,
+              `   *Cantidad:* ${line.quantity} × ${formatPrice(product.price)}`,
+              `   *Subtotal: ${formatPrice(lineTotal)}*`
+            ].join('\n');
+          }).filter(Boolean);
+          const total = state.quote.reduce((sum, line) => {
             const product = products.find((item) => item.id === line.id);
             return sum + (Number(product?.price) || 0) * Number(line.quantity);
-          }, 0))}`,
-          $('#customerName').value.trim() ? `Nombre: ${$('#customerName').value.trim()}` : '',
-          $('#customerNote').value.trim() ? `Nota: ${$('#customerNote').value.trim()}` : '',
-          '',
-          'Los precios son de referencia. ¿Me confirman disponibilidad, precio final y opciones de pago?'
-        ].filter((line) => line !== '').join('\n');
+          }, 0);
+          const name = $('#customerName').value.trim();
+          const note = $('#customerNote').value.trim();
+          return [
+            `🛒 *SOLICITUD DE COTIZACIÓN · ${config.storeName || 'G-FIVE'}*`,
+            '',
+            '*PRODUCTOS*',
+            '',
+            items.join('\n\n━━━━━━━━━━━━━━\n\n'),
+            '',
+            '━━━━━━━━━━━━━━━━━━',
+            `💰 *TOTAL ESTIMADO: ${formatPrice(total)}*`,
+            name ? `👤 Cliente: ${name}` : '',
+            note ? `📝 Nota: ${note}` : '',
+            '',
+            'Precios de referencia; sujetos a disponibilidad.',
+            '¿Me confirman el precio final y las opciones de pago?'
+          ].filter((line) => line !== '').join('\n');
+        })();
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(greeting)}`, '_blank', 'noopener,noreferrer');
   }
 
@@ -264,10 +332,11 @@
     if (quantityButton) changeQuantity(quantityButton.dataset.quantity, Number(quantityButton.dataset.delta));
     const removeButton = event.target.closest('[data-remove]');
     if (removeButton) {
-      state.quote = state.quote.filter((line) => line.id !== removeButton.dataset.remove);
+      const removedId = removeButton.dataset.remove;
+      state.quote = state.quote.filter((line) => line.id !== removedId);
       saveQuote();
       updateQuoteCount();
-      renderProducts();
+      updateProductQuoteState(removedId);
     }
   });
   $('#searchInput').addEventListener('input', (event) => {

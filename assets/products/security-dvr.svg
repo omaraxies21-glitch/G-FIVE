@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="100" y1="50" x2="790" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1a4775"/>
+      <stop offset="1" stop-color="#111d32"/>
+    </linearGradient>
+    <linearGradient id="body" x1="230" y1="230" x2="650" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#263b55"/>
+      <stop offset=".5" stop-color="#111a29"/>
+      <stop offset="1" stop-color="#35475d"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="332" y1="261" x2="608" y2="391" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe4a2"/>
+      <stop offset="1" stop-color="#c38932"/>
+    </linearGradient>
+    <filter id="shadow" x="115" y="173" width="670" height="350" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+  <rect width="900" height="650" rx="28" fill="url(#bg)"/>
+  <circle cx="734" cy="129" r="181" fill="#3981b2" fill-opacity=".17"/>
+  <circle cx="163" cy="550" r="224" fill="#d6a34c" fill-opacity=".08"/>
+  <path d="M180 469h538" stroke="#e4bd70" stroke-opacity=".27" stroke-width="2"/>
+  <ellipse cx="450" cy="445" rx="280" ry="45" fill="#000" fill-opacity=".46" filter="url(#shadow)"/>
+  <path d="m245 270 163-69c22-9 48-9 70 0l178 72c20 8 32 23 32 38v101c0 16-12 30-32 38l-170 68c-20 8-46 8-66 0l-175-69c-20-8-32-22-32-38V309c0-16 12-30 32-39Z" fill="url(#body)" stroke="#8ba0b8" stroke-opacity=".75" stroke-width="4"/>
+  <path d="m245 270 173 69c20 8 46 8 66 0l172-66" stroke="#b7c6d6" stroke-opacity=".37" stroke-width="3"/>
+  <path d="M419 341v155m65-155v155" stroke="#7a8da3" stroke-opacity=".38" stroke-width="3"/>
+  <rect x="317" y="307" width="157" height="71" rx="9" fill="#101b2a" stroke="url(#gold)" stroke-width="3"/>
+  <rect x="339" y="326" width="81" height="9" rx="4.5" fill="#f4d287"/>
+  <rect x="339" y="345" width="111" height="6" rx="3" fill="#607992"/>
+  <circle cx="452" cy="353" r="6" fill="#55e2aa"/>
+  <circle cx="494" cy="350" r="5" fill="#f2c96f"/>
+  <path d="m533 324 47 18m-47-1 47 18m-47-1 47 18" stroke="#f0ca79" stroke-width="5" stroke-linecap="round"/>
+  <text x="450" y="556" fill="#ffe2a0" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="5" text-anchor="middle">GRABADOR DVR · ILUSTRATIVO</text>
+</svg>

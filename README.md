@@ -60,6 +60,7 @@ Para 3.000 productos, usar miniaturas WebP de unos 60–120 KB, proporción cons
 - La lista muestra el código de catálogo/barra, nombre, cantidad, precio unitario, subtotal por producto y total estimado.
 - Al enviar, se abre `wa.me` con ese desglose, el total y la nota opcional.
 - Las fotos de referencia para ratones, teclados y equipos están incluidas localmente en `assets/products/`, así que cargan junto con el sitio; son ilustrativas y no representan necesariamente el producto o inventario real. Imágenes de referencia de Unsplash.
+- Si un producto importado de Profit se llama cámara, DVR/NVR o cable, el catálogo usa una imagen de referencia de esa categoría cuando la fila no incluye una foto propia. No agrega artículos ni cambia los datos del inventario.
 - No hay stock en vivo ni reserva de productos. Ventas debe confirmar disponibilidad y precio final.
 - El número de WhatsApp configurado debe ser un canal autorizado de ventas y permanecer activo.
 
