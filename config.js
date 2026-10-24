@@ -1,5 +1,5 @@
 window.GFIVE_CONFIG = {
-  storeName: 'G-FIVE',
+  storeName: 'G-FIVE VNZLA',
   whatsappNumber: '584129703456',
   currency: 'USD',
   showDemoNotice: true,

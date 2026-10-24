@@ -1,11 +1,11 @@
 {
-  "name": "G-FIVE | Catálogo de tecnología",
-  "short_name": "G-FIVE",
+  "name": "G-FIVE VNZLA | Catálogo de tecnología",
+  "short_name": "GFIVEVNZLA",
   "description": "Explora productos y solicita una cotización por WhatsApp.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f6f7f8",
-  "theme_color": "#101828",
+  "theme_color": "#111a2e",
   "lang": "es",
   "icons": [
     {

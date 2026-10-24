@@ -57,7 +57,9 @@ Para 3.000 productos, usar miniaturas WebP de unos 60–120 KB, proporción cons
 
 - El usuario puede agregar varios productos, editar cantidades o quitarlos.
 - La lista se conserva en `localStorage` de ese navegador/dispositivo.
-- Al enviar, se abre `wa.me` con productos, cantidades, precios de referencia y nota opcional.
+- La lista muestra el código de catálogo/barra, nombre, cantidad, precio unitario, subtotal por producto y total estimado.
+- Al enviar, se abre `wa.me` con ese desglose, el total y la nota opcional.
+- Las fotos de referencia para ratones, teclados y equipos están incluidas localmente en `assets/products/`, así que cargan junto con el sitio; son ilustrativas y no representan necesariamente el producto o inventario real. Imágenes de referencia de Unsplash.
 - No hay stock en vivo ni reserva de productos. Ventas debe confirmar disponibilidad y precio final.
 - El número de WhatsApp configurado debe ser un canal autorizado de ventas y permanecer activo.
 
@@ -71,7 +73,7 @@ URL esperado si se despliega un repositorio de proyecto bajo la organización, s
 
 `https://omaraxies21-glitch.github.io/G-FIVE/`
 
-Para publicarlo en `https://gfivevzla.github.io/` raíz, el repo debe llamarse `gfivevzla.github.io`, o configurarse un dominio propio. No se puede asumir que el primer URL existe.
+Para publicarlo en `https://gfivevnzla.github.io/` raíz, esa cuenta debe ser propietaria del repositorio `gfivevnzla.github.io`; también se puede configurar un dominio propio con acceso a sus DNS y GitHub Pages. Cambiar el nombre visible del sitio no cambia el dominio publicado. El proyecto actual sigue usando `https://omaraxies21-glitch.github.io/G-FIVE/` mientras no se configure y verifique uno nuevo.
 
 ### GitHub Pages con GitHub Actions
 

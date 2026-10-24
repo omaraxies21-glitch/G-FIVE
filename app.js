@@ -48,8 +48,9 @@
   }
 
   function imageMarkup(product) {
-    if (product.image) {
-      return `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">`;
+    const photo = product.image || productPhoto(product);
+    if (photo) {
+      return `<img src="${escapeHtml(photo)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async">`;
     }
     const icon = product.category === 'Laptops' || product.category === 'Computadoras'
       ? '<rect x="29" y="30" width="102" height="66" rx="8"/><path d="M18 108h124l-12 12H31z"/><path d="M65 104h30"/>'
@@ -64,6 +65,35 @@
           : '<rect x="38" y="29" width="84" height="91" rx="10"/><path d="M56 52h48m-48 16h38m-38 16h29"/>'
     ;
     return `<div class="product-placeholder" aria-hidden="true"><svg viewBox="0 0 160 150" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${icon}</svg><span>G-FIVE</span></div>`;
+  }
+
+  function productPhoto(product) {
+    const photos = {
+      mouse: 'assets/products/mouse.jpg',
+      keyboard: 'assets/products/keyboard.jpg',
+      laptop: 'assets/products/laptop.jpg',
+      monitor: 'assets/products/monitor.jpg',
+      processor: 'assets/products/processor.jpg',
+      headphones: 'assets/products/headphones.jpg',
+      phone: 'assets/products/phone.jpg',
+      tablet: 'assets/products/tablet.jpg',
+      network: 'assets/products/network.jpg',
+      storage: 'assets/products/storage.jpg',
+      camera: 'assets/products/camera.jpg'
+    };
+    const name = String(product.name || '').toLocaleLowerCase('es');
+    if (name.includes('mouse')) return photos.mouse;
+    if (name.includes('teclado')) return photos.keyboard;
+    if (name.includes('audífono') || name.includes('auricular')) return photos.headphones;
+    if (product.category === 'Laptops' || product.category === 'Computadoras') return photos.laptop;
+    if (product.category === 'Tablets') return photos.tablet;
+    if (product.category === 'Móviles') return photos.phone;
+    if (product.category === 'Monitores') return photos.monitor;
+    if (product.category === 'Procesadores') return photos.processor;
+    if (product.category === 'Almacenamiento') return photos.storage;
+    if (product.category === 'Redes') return photos.network;
+    if (product.category === 'Accesorios') return photos.keyboard;
+    return photos.camera;
   }
 
   function renderCategories() {
@@ -105,11 +135,26 @@
     $('#drawerCount').textContent = `(${count})`;
     $('#drawerEmpty').hidden = state.quote.length > 0;
     $('#quoteForm').hidden = state.quote.length === 0;
+    $('#quoteSummary').hidden = state.quote.length === 0;
+    let total = 0;
     $('#quoteItems').innerHTML = state.quote.map((line) => {
       const product = products.find((item) => item.id === line.id);
       if (!product) return '';
-      return `<div class="quote-item"><div class="quote-thumb">${product.image ? `<img src="${escapeHtml(product.image)}" alt="" loading="lazy">` : '<span>GF</span>'}</div><div class="quote-item-info"><strong>${escapeHtml(product.name)}</strong><small>${formatPrice(product.price)} · precio de referencia</small><div class="quantity-control"><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="-1" aria-label="Quitar uno">−</button><span>${line.quantity}</span><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="1" aria-label="Agregar uno">+</button></div></div><button class="remove-item" type="button" data-remove="${escapeHtml(product.id)}" aria-label="Quitar ${escapeHtml(product.name)}">×</button></div>`;
+      const unitPrice = Number(product.price) || 0;
+      const lineTotal = unitPrice * Number(line.quantity);
+      total += lineTotal;
+      const barcode = product.barcode || product.code || product.id;
+      return `<article class="quote-item">
+        <div class="quote-thumb">${imageMarkup(product)}</div>
+        <div class="quote-item-info">
+          <div class="quote-item-heading"><strong>${escapeHtml(product.name)}</strong><button class="remove-item" type="button" data-remove="${escapeHtml(product.id)}" aria-label="Quitar ${escapeHtml(product.name)}">×</button></div>
+          <small class="quote-barcode">Código de barras: ${escapeHtml(barcode)}</small>
+          <div class="quote-item-pricing"><span>${line.quantity} × ${formatPrice(unitPrice)}</span><strong>${formatPrice(lineTotal)}</strong></div>
+          <div class="quantity-control"><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="-1" aria-label="Quitar uno">−</button><span>${line.quantity}</span><button type="button" data-quantity="${escapeHtml(product.id)}" data-delta="1" aria-label="Agregar uno">+</button></div>
+        </div>
+      </article>`;
     }).join('');
+    $('#quoteTotal').textContent = formatPrice(total);
   }
 
   function showToast(message) {
@@ -180,17 +225,24 @@
           `Hola, vi el catálogo web de ${config.storeName || 'G-FIVE'} y quisiera cotizar:`,
           ...state.quote.map((line) => {
             const product = products.find((item) => item.id === line.id);
-            return product ? `• ${line.quantity} x ${product.name} (${formatPrice(product.price)} c/u, referencia)` : '';
+            if (!product) return '';
+            const barcode = product.barcode || product.code || product.id;
+            const lineTotal = (Number(product.price) || 0) * Number(line.quantity);
+            return `• Código: ${barcode}\n  ${product.name}\n  ${line.quantity} x ${formatPrice(product.price)} = ${formatPrice(lineTotal)}`;
           }).filter(Boolean),
+          `TOTAL ESTIMADO: ${formatPrice(state.quote.reduce((sum, line) => {
+            const product = products.find((item) => item.id === line.id);
+            return sum + (Number(product?.price) || 0) * Number(line.quantity);
+          }, 0))}`,
           $('#customerName').value.trim() ? `Nombre: ${$('#customerName').value.trim()}` : '',
           $('#customerNote').value.trim() ? `Nota: ${$('#customerNote').value.trim()}` : '',
           '',
-          '¿Me confirman disponibilidad, precio final y opciones de pago?'
+          'Los precios son de referencia. ¿Me confirman disponibilidad, precio final y opciones de pago?'
         ].filter((line) => line !== '').join('\n');
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(greeting)}`, '_blank', 'noopener,noreferrer');
   }
 
-  document.title = `${config.storeName || 'G-FIVE'} | Catálogo`;
+  document.title = `${config.storeName || 'G-FIVE VNZLA'} | Catálogo`;
   $('#year').textContent = new Date().getFullYear();
   if (!config.showDemoNotice) $('#demoNotice').hidden = true;
   else $('#demoNotice').textContent = config.demoNotice || 'CATÁLOGO DEMO · PRECIOS ILUSTRATIVOS';
