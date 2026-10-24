@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101828">
+    <meta name="description" content="Explora el catálogo de tecnología G-FIVE y solicita tu cotización por WhatsApp.">
+    <title>G-FIVE | Tecnología para lo que viene</title>
+    <link rel="icon" href="assets/brand/gfive-icon.png" type="image/png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js" defer></script>
+    <script src="data/catalog.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="demo-ribbon" id="demoNotice" role="status"></div>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="G-FIVE, inicio">
+        <img class="brand-mark" src="assets/brand/gfive-icon.png" alt="">
+        <span class="brand-name"><strong>G-FIVE</strong><small>TECNOLOGÍA</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#ayuda">¿Necesitas ayuda?</a>
+      </nav>
+      <button class="quote-top" id="openQuote" type="button">Mi cotización <span id="quoteCount">0</span></button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="live-dot"></span> TECNOLOGÍA QUE TE MUEVE</p>
+          <h1>Innovación<br><span>para lo que viene.</span></h1>
+          <p class="hero-description">Móviles, tablets, computación, redes, seguridad y energía. Explora el catálogo demo y prepara tu cotización con nuestro equipo.</p>
+          <a class="button button-light" href="#catalogo">Explorar catálogo <span aria-hidden="true">↘</span></a>
+          <div class="hero-proof"><span>01</span><p>Arma tu lista en segundos<br><strong>y cotiza directo por WhatsApp</strong></p></div>
+        </div>
+        <div class="hero-art">
+          <img class="hero-official-banner" src="assets/brand/gfive-banner.png" alt="G-FIVE: innovación tecnológica de alto nivel. Móviles, tablets, redes, seguridad y energía.">
+          <span class="hero-image-caption">TECNOLOGÍA PARA PERSONAS Y NEGOCIOS</span>
+        </div>
+        <div class="hero-bottom"><span>MARACAY · VENEZUELA</span><span>CATÁLOGO DE PRODUCTOS <b>↓</b></span></div>
+      </section>
+
+      <section class="category-strip" id="categorias">
+        <div><span class="section-kicker">ENCUENTRA LO TUYO</span><h2>¿Qué estás buscando?</h2></div>
+        <div class="category-pills" id="categoryPills" aria-label="Filtrar por categoría"></div>
+      </section>
+
+      <section class="catalog-section" id="catalogo">
+        <div class="catalog-heading">
+          <div><span class="section-kicker">CATÁLOGO G-FIVE</span><h2>El siguiente upgrade<br>empieza aquí<span class="accent">.</span></h2></div>
+          <p>Encuentra lo que necesitas. Agrégalo a tu lista y te ayudamos con el resto.</p>
+        </div>
+        <div class="catalog-toolbar">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Busca equipos, marcas o modelos..." autocomplete="off" aria-label="Buscar en catálogo"><kbd>⌘ K</kbd></label>
+          <label class="sort-control"><span>Ordenar:</span><select id="sortSelect" aria-label="Ordenar productos"><option value="featured">Destacados</option><option value="price-asc">Precio: menor a mayor</option><option value="price-desc">Precio: mayor a menor</option><option value="name">Nombre: A–Z</option></select></label>
+        </div>
+        <div class="active-filters"><span id="resultCount"></span><button id="clearFilters" type="button" hidden>Limpiar filtros <span>×</span></button></div>
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+        <div class="load-more-wrap"><button class="button button-dark" id="loadMore" type="button" hidden>Mostrar más productos <span>↓</span></button></div>
+        <div class="empty-state" id="emptyState" hidden><span>⌕</span><h3>No encontramos ese producto</h3><p>Prueba con otro nombre o cambia la categoría.</p><button class="button button-dark" id="emptyReset" type="button">Ver todo el catálogo</button></div>
+      </section>
+
+      <section class="help-banner" id="ayuda">
+        <div class="help-icon">GF</div><div><span class="section-kicker">¿NO SABES CUÁL ELEGIR?</span><h2>Cuéntanos qué necesitas.</h2><p>Te orientamos para encontrar el equipo que mejor se adapta a ti.</p></div>
+        <button class="button button-light" id="helpWhatsapp" type="button">Hablar con un asesor <span>↗</span></button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#"><img class="brand-mark" src="assets/brand/gfive-icon.png" alt=""><span class="brand-name"><strong>G-FIVE</strong><small>TECNOLOGÍA</small></span></a>
+      <p>Innovación tecnológica de alto nivel. <span>© <span id="year"></span> G-FIVE.</span></p>
+      <span class="footer-location">MARACAY, VENEZUELA</span>
+    </footer>
+
+    <div class="quote-backdrop" id="quoteBackdrop" hidden></div>
+    <aside class="quote-drawer" id="quoteDrawer" aria-labelledby="quoteTitle" aria-modal="true" role="dialog" aria-hidden="true">
+      <div class="drawer-head"><div><span class="section-kicker">TU SELECCIÓN</span><h2 id="quoteTitle">Mi cotización <span id="drawerCount">(0)</span></h2></div><button class="close-drawer" id="closeQuote" type="button" aria-label="Cerrar cotización">×</button></div>
+      <p class="drawer-intro">Revisa tu lista y envíala al equipo de ventas. Te confirmaremos disponibilidad y precio final.</p>
+      <div class="quote-items" id="quoteItems"></div>
+      <div class="drawer-empty" id="drawerEmpty"><span>＋</span><strong>Aún no agregas productos</strong><p>Explora el catálogo y crea tu lista.</p><button class="text-button" id="continueShopping" type="button">Seguir explorando →</button></div>
+      <div class="quote-form" id="quoteForm">
+        <label>Tu nombre (opcional)<input id="customerName" type="text" maxlength="60" placeholder="¿Cómo te llamas?"></label>
+        <label>Nota para ventas (opcional)<textarea id="customerNote" maxlength="250" rows="2" placeholder="Ciudad, uso que le darás o alguna pregunta..."></textarea></label>
+        <button class="button whatsapp-button" id="sendQuote" type="button">Enviar lista por WhatsApp <span>↗</span></button>
+        <small>La cotización final y disponibilidad serán confirmadas por el equipo de ventas.</small>
+      </div>
+    </aside>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

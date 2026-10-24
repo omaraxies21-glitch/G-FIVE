@@ -1,0 +1,11 @@
+{
+  "name": "gfive-catalog",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Catálogo estático con cotización por WhatsApp para G-FIVE.",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "check": "node scripts/check.js",
+    "build": "node scripts/build.js"
+  }
+}

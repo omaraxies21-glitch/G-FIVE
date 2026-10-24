@@ -1,0 +1,18 @@
+{
+  "name": "G-FIVE | Catálogo de tecnología",
+  "short_name": "G-FIVE",
+  "description": "Explora productos y solicita una cotización por WhatsApp.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f8",
+  "theme_color": "#101828",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "assets/brand/gfive-icon.png",
+      "sizes": "447x447",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
